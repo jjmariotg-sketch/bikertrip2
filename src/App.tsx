@@ -387,7 +387,7 @@ export default function App() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<"landing" | "catalog" | "user" | "admin" | "reviews" | "photos">("landing");
-  const [adminSubTab, setAdminSubTab] = useState<"dashboard" | "pilot">("dashboard");
+  const [adminSubTab, setAdminSubTab] = useState<"dashboard" | "gallery">("dashboard");
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -938,18 +938,6 @@ export default function App() {
                 <Compass className="w-4 h-4" />
                 {t("nav.catalog")}
               </button>
-
-              <button
-                onClick={() => setActiveTab("reviews")}
-                className={`px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center gap-2 cursor-pointer ${
-                  activeTab === "reviews" 
-                    ? "bg-primary text-[#0F1115] shadow-md shadow-primary/10" 
-                    : "text-on-surface-variant hover:text-white hover:bg-white/5"
-                }`}
-              >
-                <MessageSquare className="w-4 h-4" />
-                {t("nav.reviews")}
-              </button>
               
               <button
                 onClick={() => setActiveTab("photos")}
@@ -962,47 +950,16 @@ export default function App() {
                 <Camera className="w-4 h-4" />
                 {t("nav.photos")}
               </button>
-
-              {isAdminUser(currentUser) && (
-                <button
-                  onClick={() => { setActiveTab("admin"); }}
-                  className={`px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center gap-2 cursor-pointer ${
-                    activeTab === "admin" 
-                      ? "bg-primary text-[#0F1115] shadow-md shadow-primary/10" 
-                      : "text-on-surface-variant hover:text-white hover:bg-white/5"
-                  }`}
-                >
-                  <Shield className="w-4 h-4" />
-                  {t("nav.admin")}
-                </button>
-              )}
-            </nav>
-
-            {/* Session Actions */}
-            <div className="flex items-center gap-3">
-              {/* Language Selector */}
-              <div className="relative">
-                <select
-                  value={lang}
-                  onChange={(e) => setLang(e.target.value as "es" | "en" | "fr")}
-                  className="bg-surface-container-low hover:bg-surface-container-high border border-glass-border hover:border-primary/40 rounded-xl px-2.5 py-2 text-xs font-bold text-white outline-none cursor-pointer transition-all"
-                  style={{ colorScheme: 'dark' }}
-                >
-                  <option value="es">🇪🇸 ES</option>
-                  <option value="en">🇺🇸 EN</option>
-                  <option value="fr">🇫🇷 FR</option>
-                </select>
-              </div>
-
-              {/* Contacto */}
+              
+              {/* Contacto moved to main nav as requested */}
               <div className="relative">
                 <button
                   onClick={() => setIsContactOpen(!isContactOpen)}
-                  className="px-3 py-2 bg-surface-container-low hover:bg-surface-container-high border border-glass-border hover:border-primary/45 rounded-xl text-on-surface-variant hover:text-primary transition-all cursor-pointer flex items-center gap-1.5 text-xs font-semibold"
+                  className="px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center gap-2 cursor-pointer text-on-surface-variant hover:text-white hover:bg-white/5"
                   title="Contacto BikerTrip"
                 >
                   <Phone className="w-4 h-4 text-primary shrink-0 animate-pulse" />
-                  <span className="hidden sm:inline">{t("header.contact")}</span>
+                  <span>{t("header.contact")}</span>
                 </button>
                 {isContactOpen && (
                   <>
@@ -1035,7 +992,10 @@ export default function App() {
                   </>
                 )}
               </div>
+            </nav>
 
+            {/* Session Actions */}
+            <div className="flex items-center gap-3">
               <button
                 onClick={() => setTheme(theme === "light" ? "dark" : "light")}
                 className="p-2 bg-surface-container-low hover:bg-surface-container-high border border-glass-border rounded-xl text-on-surface-variant hover:text-primary transition-all cursor-pointer flex items-center justify-center"
@@ -1056,10 +1016,10 @@ export default function App() {
                   <button 
                     onClick={() => setActiveTab(isAdminUser(currentUser) ? "admin" : "user")}
                     className="hidden lg:block text-left hover:opacity-80 transition-opacity cursor-pointer"
-                    title="Ir a mi panel"
+                    title={isAdminUser(currentUser) ? "Panel de Control" : "Ir a mi panel"}
                   >
                     <p className="text-xs font-bold text-white truncate max-w-[100px]">{currentUser.displayName || "Piloto"}</p>
-                    <p className="text-[9px] text-on-surface-variant/70 truncate uppercase font-mono tracking-wider">{t("header.pilot")}</p>
+                    <p className="text-[9px] text-on-surface-variant/70 truncate uppercase font-mono tracking-wider">{isAdminUser(currentUser) ? "Admin" : t("header.pilot")}</p>
                   </button>
                   <button 
                     onClick={handleSignOut}
@@ -1072,28 +1032,15 @@ export default function App() {
               ) : (
                 <div className="flex gap-2">
                   <button
-                    onClick={handleUseDemo}
-                    className="px-3 py-1.5 bg-surface-container border border-glass-border rounded-xl text-xs font-bold hover:text-white hover:bg-white/5 transition-all cursor-pointer"
-                  >
-                    {t("header.demo_btn")}
-                  </button>
-                  <button
                     onClick={() => {
                       setAuthMode("login");
                       setAuthError("");
                       setIsAuthModalOpen(true);
                     }}
-                    className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
+                    className="px-4 py-1.5 bg-primary text-[#0F1115] rounded-xl text-xs font-bold glow-btn transition-all cursor-pointer flex items-center gap-1.5"
                   >
-                    <User className="w-3.5 h-3.5 text-primary" />
-                    {t("header.login_btn")}
-                  </button>
-                  <button
-                    onClick={handleGoogleSignIn}
-                    className="px-3 py-1.5 bg-primary text-[#0F1115] rounded-xl text-xs font-bold glow-btn transition-all cursor-pointer flex items-center gap-1.5"
-                  >
-                    <Sparkles className="w-3.5 h-3.5" />
-                    Google
+                    <User className="w-3.5 h-3.5" />
+                    Entrar / Registrarse
                   </button>
                 </div>
               )}
@@ -1123,36 +1070,23 @@ export default function App() {
           Explorar
         </button>
         <button
-          onClick={() => setActiveTab("reviews")}
+          onClick={() => setActiveTab("photos")}
           className={`px-3 py-2 rounded-lg text-xs font-bold flex flex-col items-center gap-1 ${
-            activeTab === "reviews" ? "text-primary" : "text-on-surface-variant"
+            activeTab === "photos" ? "text-primary" : "text-on-surface-variant"
           }`}
         >
-          <MessageSquare className="w-4 h-4" />
-          Reseñas
+          <Camera className="w-4 h-4" />
+          Galería
         </button>
-        {currentUser && !isAdminUser(currentUser) && (
-          <button
-            onClick={() => setActiveTab("user")}
-            className={`px-3 py-2 rounded-lg text-xs font-bold flex flex-col items-center gap-1 ${
-              activeTab === "user" ? "text-primary" : "text-on-surface-variant"
-            }`}
-          >
-            <User className="w-4 h-4" />
-            Mi Panel
-          </button>
-        )}
-        {isAdminUser(currentUser) && (
-          <button
-            onClick={() => setActiveTab("admin")}
-            className={`px-3 py-2 rounded-lg text-xs font-bold flex flex-col items-center gap-1 ${
-              activeTab === "admin" ? "text-primary" : "text-on-surface-variant"
-            }`}
-          >
-            <Shield className="w-4 h-4" />
-            Control
-          </button>
-        )}
+        <button
+          onClick={() => setIsContactOpen(!isContactOpen)}
+          className={`px-3 py-2 rounded-lg text-xs font-bold flex flex-col items-center gap-1 ${
+            isContactOpen ? "text-primary" : "text-on-surface-variant"
+          }`}
+        >
+          <Phone className="w-4 h-4" />
+          Contacto
+        </button>
       </div>
 
       {/* Main Container */}
@@ -1810,26 +1744,47 @@ export default function App() {
             {activeTab === "admin" && (
               <div className="space-y-8 text-left animate-fade-in">
                 {/* Segmented Control Selector */}
-                <div className="flex justify-center sm:justify-start">
-                  <div className="bg-[#16191F] border border-glass-border p-1.5 rounded-2xl flex items-center gap-1.5 shadow-xl">
-                    <button
-                      className="px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer bg-primary text-[#0F1115] shadow-md shadow-primary/10"
-                    >
-                      <Shield className="w-4 h-4" />
-                      Gestión de Administración
-                    </button>
-                    <button
-                      onClick={() => setActiveTab("user")}
-                      className="px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer text-on-surface-variant hover:text-white hover:bg-white/5"
-                    >
-                      <User className="w-4 h-4" />
-                      Mi Panel de Piloto
-                    </button>
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                  <div className="flex justify-center sm:justify-start">
+                    <div className="bg-[#16191F] border border-glass-border p-1.5 rounded-2xl flex items-center gap-1.5 shadow-xl">
+                      <button
+                        onClick={() => setAdminSubTab("dashboard")}
+                        className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                          adminSubTab === "dashboard"
+                            ? "bg-primary text-[#0F1115] shadow-md shadow-primary/10"
+                            : "text-on-surface-variant hover:text-white hover:bg-white/5"
+                        }`}
+                      >
+                        <Shield className="w-4 h-4" />
+                        Gestión de Rutas
+                      </button>
+                      <button
+                        onClick={() => setAdminSubTab("gallery")}
+                        className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                          adminSubTab === "gallery"
+                            ? "bg-primary text-[#0F1115] shadow-md shadow-primary/10"
+                            : "text-on-surface-variant hover:text-white hover:bg-white/5"
+                        }`}
+                      >
+                        <Camera className="w-4 h-4" />
+                        Gestión de Galería
+                      </button>
+                    </div>
                   </div>
+                  
+                  <button
+                    onClick={() => setActiveTab("user")}
+                    className="px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer text-on-surface-variant hover:text-white hover:bg-white/5 border border-glass-border bg-surface-container"
+                  >
+                    <User className="w-4 h-4" />
+                    Ir a Mi Panel de Piloto
+                  </button>
                 </div>
 
-                {/* Stats row */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                {adminSubTab === "dashboard" && (
+                  <div className="space-y-8 animate-fade-in">
+                    {/* Stats row */}
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                   {/* Total Sales (calculated) */}
                   <div className="glass-panel rounded-3xl p-6 border border-glass-border bg-surface-container">
                     <span className="text-[10px] uppercase tracking-widest font-mono font-bold text-on-surface-variant/60">Volumen Ventas Totales</span>
@@ -2127,6 +2082,18 @@ export default function App() {
                     </table>
                   </div>
                 </div>
+              </div>
+              )}
+              {adminSubTab === "gallery" && (
+                  <div className="animate-fade-in bg-surface-container rounded-3xl p-6 border border-glass-border">
+                    <PhotosView
+                      currentUser={currentUser}
+                      lang={lang}
+                      isAdmin={isAdminUser(currentUser)}
+                      isDashboardMode={true}
+                    />
+                  </div>
+                )}
               </div>
             )}
 

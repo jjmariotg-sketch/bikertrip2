@@ -7,9 +7,10 @@ interface PhotosViewProps {
   currentUser: any;
   lang: 'es' | 'en' | 'fr';
   isAdmin: boolean;
+  isDashboardMode?: boolean;
 }
 
-export default function PhotosView({ currentUser, lang, isAdmin }: PhotosViewProps) {
+export default function PhotosView({ currentUser, lang, isAdmin, isDashboardMode = false }: PhotosViewProps) {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
@@ -102,7 +103,7 @@ export default function PhotosView({ currentUser, lang, isAdmin }: PhotosViewPro
         </div>
       </div>
 
-      {isAdmin && (
+      {isAdmin && isDashboardMode && (
         <div className="glass-panel p-6 rounded-3xl border border-glass-border bg-surface-container-low">
           <form onSubmit={handleUpload} className="space-y-4">
             <h3 className="text-white font-bold text-lg mb-2 flex items-center gap-2">
@@ -189,7 +190,7 @@ export default function PhotosView({ currentUser, lang, isAdmin }: PhotosViewPro
                 </div>
               </div>
               
-              {isAdmin && (
+              {isAdmin && isDashboardMode && (
                 <button
                   onClick={() => handleDelete(photo.id!)}
                   className="absolute top-3 right-3 p-2 bg-red-500/80 hover:bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm"
