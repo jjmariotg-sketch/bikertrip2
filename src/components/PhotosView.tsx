@@ -27,8 +27,12 @@ export default function PhotosView({ currentUser, lang, isAdmin, isDashboardMode
   const loadPhotos = async () => {
     setLoading(true);
     try {
-      const data = await fetchPhotos();
-      setPhotos(data || []);
+      const dbPhotos = await fetchPhotos() || [];
+      const demoPhotosStr = localStorage.getItem("demo_photos");
+      const demoPhotos: Photo[] = demoPhotosStr ? JSON.parse(demoPhotosStr) : [];
+      const combined = [...demoPhotos, ...dbPhotos];
+      combined.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      setPhotos(combined);
     } catch (err) {
       console.error(err);
     } finally {
@@ -65,10 +69,22 @@ export default function PhotosView({ currentUser, lang, isAdmin, isDashboardMode
         createdAt: new Date().toISOString()
       };
       
-      await addPhoto(newPhoto);
-      setSelectedImage(null);
-      setCaption("");
-      await loadPhotos();
+      const isDemoUser = currentUser.uid === "demo-jjmario-123" || currentUser.uid === "demo-admin-uid" || !currentUser.email;
+      
+      if (isDemoUser) {
+        const demoPhotosStr = localStorage.getItem("demo_photos");
+        const demoPhotos: Photo[] = demoPhotosStr ? JSON.parse(demoPhotosStr) : [];
+        const photoWithId = { ...newPhoto, id: `demo-photo-${Date.now()}` };
+        localStorage.setItem("demo_photos", JSON.stringify([photoWithId, ...demoPhotos]));
+        setSelectedImage(null);
+        setCaption("");
+        await loadPhotos();
+      } else {
+        await addPhoto(newPhoto);
+        setSelectedImage(null);
+        setCaption("");
+        await loadPhotos();
+      }
     } catch (err) {
       console.error("Error uploading photo:", err);
       alert("Hubo un error al subir la foto.");
@@ -80,8 +96,16 @@ export default function PhotosView({ currentUser, lang, isAdmin, isDashboardMode
   const handleDelete = async (photoId: string) => {
     if (!window.confirm("¿Seguro que deseas eliminar esta foto?")) return;
     try {
-      await deletePhoto(photoId);
-      setPhotos(photos.filter(p => p.id !== photoId));
+      if (photoId.startsWith("demo-photo-")) {
+        const demoPhotosStr = localStorage.getItem("demo_photos");
+        const demoPhotos: Photo[] = demoPhotosStr ? JSON.parse(demoPhotosStr) : [];
+        const updated = demoPhotos.filter(p => p.id !== photoId);
+        localStorage.setItem("demo_photos", JSON.stringify(updated));
+        setPhotos(photos.filter(p => p.id !== photoId));
+      } else {
+        await deletePhoto(photoId);
+        setPhotos(photos.filter(p => p.id !== photoId));
+      }
     } catch (err) {
       console.error("Error deleting photo:", err);
     }
@@ -103,7 +127,16 @@ export default function PhotosView({ currentUser, lang, isAdmin, isDashboardMode
         </div>
       </div>
 
-      {isAdmin && isDashboardMode && (
+      {!currentUser ? (
+        <div className="glass-panel p-6 rounded-3xl border border-glass-border bg-surface-container/30 text-center">
+          <Camera className="w-10 h-10 text-primary/40 mx-auto mb-3" />
+          <p className="text-sm text-on-surface-variant">
+            {lang === 'es' ? 'Inicia sesión o usa el modo Demo para compartir tus fotos en la galería de viajes.' : 
+             lang === 'fr' ? 'Connectez-vous ou utilisez le mode Démo pour partager vos photos dans la galerie.' :
+             'Log in or use Demo mode to share your photos in the travel gallery.'}
+          </p>
+        </div>
+      ) : (
         <div className="glass-panel p-6 rounded-3xl border border-glass-border bg-surface-container-low">
           <form onSubmit={handleUpload} className="space-y-4">
             <h3 className="text-white font-bold text-lg mb-2 flex items-center gap-2">
@@ -190,10 +223,10 @@ export default function PhotosView({ currentUser, lang, isAdmin, isDashboardMode
                 </div>
               </div>
               
-              {isAdmin && isDashboardMode && (
+              {(isAdmin || (currentUser && photo.userId === currentUser.uid)) && (
                 <button
                   onClick={() => handleDelete(photo.id!)}
-                  className="absolute top-3 right-3 p-2 bg-red-500/80 hover:bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm"
+                  className="absolute top-3 right-3 p-2 bg-red-500/80 hover:bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm cursor-pointer"
                   title="Eliminar foto"
                 >
                   <Trash2 className="w-4 h-4" />

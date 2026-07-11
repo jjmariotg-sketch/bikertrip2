@@ -997,12 +997,28 @@ export default function App() {
             {/* Session Actions */}
             <div className="flex items-center gap-3">
               <button
+                id="theme-toggle-btn"
                 onClick={() => setTheme(theme === "light" ? "dark" : "light")}
                 className="p-2 bg-surface-container-low hover:bg-surface-container-high border border-glass-border rounded-xl text-on-surface-variant hover:text-primary transition-all cursor-pointer flex items-center justify-center"
                 title={theme === "light" ? t("header.theme_dark") : t("header.theme_light")}
               >
                 {theme === "light" ? <Moon className="w-4.5 h-4.5 text-slate-700" /> : <Sun className="w-4.5 h-4.5 text-amber-400" />}
               </button>
+
+              {/* Language Selector */}
+              <div className="relative" id="language-selector-container">
+                <select
+                  id="language-selector"
+                  value={lang}
+                  onChange={(e) => setLang(e.target.value as "es" | "en" | "fr")}
+                  className="bg-surface-container-low hover:bg-surface-container-high border border-glass-border hover:border-primary/40 rounded-xl px-2.5 py-2 text-xs font-bold text-white outline-none cursor-pointer transition-all focus:ring-1 focus:ring-primary"
+                  style={{ colorScheme: 'dark' }}
+                >
+                  <option value="es">🇪🇸 ES</option>
+                  <option value="en">🇺🇸 EN</option>
+                  <option value="fr">🇫🇷 FR</option>
+                </select>
+              </div>
 
               {currentUser ? (
                 <div className="flex items-center gap-3 bg-surface-container-high border border-glass-border px-3.5 py-1.5 rounded-2xl">
