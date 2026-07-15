@@ -95,8 +95,8 @@ service cloud.firestore {
     // --- Photos Collection ---
     match /photos/{photoId} {
       allow read: if true;
-      allow create: if isSignedIn() && isValidPhoto(request.resource.data) && isOwner(request.resource.data.userId);
-      allow update: if isSignedIn() && isValidPhoto(request.resource.data) && (isOwner(resource.data.userId) || isAdmin());
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && (isOwner(resource.data.userId) || isAdmin());
       allow delete: if isSignedIn() && (isOwner(resource.data.userId) || isAdmin());
     }
 
