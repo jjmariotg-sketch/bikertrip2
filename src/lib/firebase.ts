@@ -39,14 +39,17 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 // In AI Studio, we need to handle specific Firestore DB if firestoreDatabaseId is provided
 let db;
 try {
+  console.log("Attempting to initialize Firestore with DB ID: ai-studio-bikertrip-199f0f1f-854f-441b-af0a-d17a6f83600e");
   db = getFirestore(app, "ai-studio-bikertrip-199f0f1f-854f-441b-af0a-d17a6f83600e");
+  console.log("Firestore initialized successfully with specific DB ID.");
 } catch (e) {
+  console.error("Failed to initialize Firestore with specific DB ID, trying default:", e);
   try {
-    db = initializeFirestore(app, {
-      databaseId: "ai-studio-bikertrip-199f0f1f-854f-441b-af0a-d17a6f83600e"
-    } as any);
-  } catch (err) {
     db = getFirestore(app);
+    console.log("Firestore initialized successfully with default DB.");
+  } catch (err) {
+    console.error("Failed to initialize Firestore completely:", err);
+    throw err;
   }
 }
 

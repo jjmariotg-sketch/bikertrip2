@@ -43,8 +43,8 @@ export default function PhotosView({ currentUser, lang, isAdmin, isDashboardMode
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 700 * 1024) {
-        alert("La imagen es demasiado grande. Por favor sube una imagen de menos de 700KB.");
+      if (file.size > 500 * 1024) {
+        alert("La imagen es demasiado grande. Por favor sube una imagen de menos de 500KB.");
         return;
       }
       const reader = new FileReader();
