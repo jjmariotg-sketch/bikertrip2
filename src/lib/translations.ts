@@ -136,6 +136,8 @@ export const translations: Record<'es' | 'en' | 'fr', Record<string, string>> = 
     "cookies.accept": "Aceptar",
     "cookies.reject": "Rechazar",
     "cookies.configure": "Configurar",
+    "cookies.privacy_policy": "Política de Privacidad",
+    "cookies.terms_and_conditions": "Términos y Condiciones",
 
     // Catalog/Explore View
     "catalog.badge": "Rutas de Ensueño 2026/2027",
@@ -271,6 +273,8 @@ export const translations: Record<'es' | 'en' | 'fr', Record<string, string>> = 
     "cookies.accept": "Accept",
     "cookies.reject": "Reject",
     "cookies.configure": "Configure",
+    "cookies.privacy_policy": "Privacy Policy",
+    "cookies.terms_and_conditions": "Terms and Conditions",
 
     // Catalog/Explore View
     "catalog.badge": "Dream Routes 2026/2027",
@@ -406,6 +410,8 @@ export const translations: Record<'es' | 'en' | 'fr', Record<string, string>> = 
     "cookies.accept": "Accepter",
     "cookies.reject": "Refuser",
     "cookies.configure": "Configurer",
+    "cookies.privacy_policy": "Politique de confidentialité",
+    "cookies.terms_and_conditions": "Termes et Conditions",
 
     // Catalog/Explore View
     "catalog.badge": "Itinéraires de Rêve 2026/2027",

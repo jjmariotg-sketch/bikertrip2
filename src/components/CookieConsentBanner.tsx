@@ -25,7 +25,11 @@ export function CookieConsentBanner({ lang = "es", t }: { lang?: "es" | "en" | "
         <Shield className="w-6 h-6 text-primary" />
         <div>
           <h4 className="text-sm font-bold text-white">{t("cookies.title")}</h4>
-          <p className="text-xs text-on-surface-variant">{t("cookies.text")}</p>
+          <p className="text-xs text-on-surface-variant mb-2">{t("cookies.text")}</p>
+          <div className="flex gap-4">
+            <a href="/privacy-policy" className="text-[10px] text-primary hover:underline">{t("cookies.privacy_policy")}</a>
+            <a href="/terms" className="text-[10px] text-primary hover:underline">{t("cookies.terms_and_conditions")}</a>
+          </div>
         </div>
       </div>
       <div className="flex items-center gap-2">
