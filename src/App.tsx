@@ -72,6 +72,7 @@ import TripModal from "./components/TripModal";
 import ReviewsView from "./components/ReviewsView";
 import PhotosView from "./components/PhotosView";
 import RouteMap from "./components/RouteMap";
+import { CookieConsentBanner } from "./components/CookieConsentBanner";
 import { translations, FAQs, translateDifficulty } from "./lib/translations";
 
 // Current mock user ID for demo purposes
@@ -2308,6 +2309,7 @@ export default function App() {
           </div>
         </div>
       )}
+      <CookieConsentBanner lang={lang} t={t} />
     </div>
   );
 }

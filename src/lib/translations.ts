@@ -131,6 +131,12 @@ export const translations: Record<'es' | 'en' | 'fr', Record<string, string>> = 
     "newsletter.footer": "Spam libre. Puedes darte de baja en cualquier momento.",
     "newsletter.success_alert": "¡Suscripción confirmada! Revisa tu bandeja de entrada.",
 
+    "cookies.title": "Política de Cookies",
+    "cookies.text": "Utilizamos cookies para mejorar tu experiencia. Al aceptar, permites el uso de cookies de rastreo.",
+    "cookies.accept": "Aceptar",
+    "cookies.reject": "Rechazar",
+    "cookies.configure": "Configurar",
+
     // Catalog/Explore View
     "catalog.badge": "Rutas de Ensueño 2026/2027",
     "catalog.title_part1": "Próximas Salidas para",
@@ -260,6 +266,12 @@ export const translations: Record<'es' | 'en' | 'fr', Record<string, string>> = 
     "newsletter.footer": "Spam free. You can unsubscribe at any time.",
     "newsletter.success_alert": "Subscription confirmed! Check your inbox.",
 
+    "cookies.title": "Cookie Policy",
+    "cookies.text": "We use cookies to improve your experience. By accepting, you allow tracking cookies.",
+    "cookies.accept": "Accept",
+    "cookies.reject": "Reject",
+    "cookies.configure": "Configure",
+
     // Catalog/Explore View
     "catalog.badge": "Dream Routes 2026/2027",
     "catalog.title_part1": "Upcoming Departures to",
@@ -388,6 +400,12 @@ export const translations: Record<'es' | 'en' | 'fr', Record<string, string>> = 
     "newsletter.button": "S'abonner au Club de Route",
     "newsletter.footer": "Sans spam. Vous pouvez vous désabonner à tout moment.",
     "newsletter.success_alert": "Inscription confirmée ! Vérifiez votre boîte de réception.",
+
+    "cookies.title": "Politique de cookies",
+    "cookies.text": "Nous utilisons des cookies pour améliorer votre expérience. En acceptant, vous autorisez les cookies de suivi.",
+    "cookies.accept": "Accepter",
+    "cookies.reject": "Refuser",
+    "cookies.configure": "Configurer",
 
     // Catalog/Explore View
     "catalog.badge": "Itinéraires de Rêve 2026/2027",
